@@ -1,5 +1,6 @@
 package com.avbook.app.user;
 
+import com.avbook.app.entity.Company;
 import jakarta.persistence.*;
 
 import java.util.Collection;
@@ -32,6 +33,8 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+    @ManyToOne
+    private Company company;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
