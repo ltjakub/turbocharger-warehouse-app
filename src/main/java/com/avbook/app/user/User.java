@@ -1,7 +1,5 @@
 package com.avbook.app.user;
 
-import com.avbook.app.entity.FlightLog;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Collection;
@@ -34,8 +32,6 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private List<FlightLog> flightLogs;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
