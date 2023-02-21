@@ -1,35 +1,45 @@
 package com.avbook.app.entity;
 
 import jakarta.persistence.*;
-import lombok.NonNull;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Turbocharger {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    @NonNull
+    @NotNull
     @ManyToOne
     private Company company;
-    @NonNull
+    @ManyToOne
+    private Client client;
+    @NotNull
     private String serialNo;
     @Enumerated(EnumType.STRING)
     private TurbochargerStatus status;
-    @NonNull
+    @NotNull
     private String brand;
-    @NonNull
+    @NotNull
     private String model;
-    @NonNull
+    @NotNull
     private String engineType;
-    @NonNull
+    @NotNull
     private Integer volume;
-    @NonNull
+    @NotNull
     private Integer power;
-    @NonNull
+    @NotNull
     private LocalDate producedFrom;
-    @NonNull
+    @NotNull
     private LocalDate producedTo;
+    private String position;
+    private String comment;
 }

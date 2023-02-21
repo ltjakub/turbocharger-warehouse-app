@@ -1,15 +1,16 @@
 package com.avbook.app.api.dto;
 
-import com.avbook.app.entity.Company;
 import com.avbook.app.entity.TurbochargerStatus;
-import jakarta.persistence.*;
-import lombok.NonNull;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.UUID;
-
-public class TurbochargerRequest {
-    private Company company;
+@Getter
+@Setter
+public class TurbochargerDto {
+    private UUID id;
+    private UUID companyId;
     private String serialNo;
     private TurbochargerStatus status;
     private String brand;
@@ -19,4 +20,6 @@ public class TurbochargerRequest {
     private Integer power;
     private LocalDate producedFrom;
     private LocalDate producedTo;
+    private String position;
+    private UUID clientId;
 }
