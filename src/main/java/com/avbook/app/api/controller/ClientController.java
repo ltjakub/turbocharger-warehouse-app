@@ -2,10 +2,8 @@ package com.avbook.app.api.controller;
 
 import com.avbook.app.api.dto.ClientDto;
 import com.avbook.app.api.dto.ClientRequest;
-import com.avbook.app.entity.Client;
 import com.avbook.app.service.ClientService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

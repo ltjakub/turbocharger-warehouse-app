@@ -19,6 +19,7 @@ public class PartController {
     public void incrementQuantity(@PathVariable UUID id) {
         partService.incrementQuantity(id);
     }
+
     @PostMapping("/decrement/{id}")
     public void decrementQuantity(@PathVariable UUID id) {
         partService.decrementQuantity(id);

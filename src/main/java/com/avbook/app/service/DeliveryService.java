@@ -1,7 +1,6 @@
 package com.avbook.app.service;
 
 import com.avbook.app.api.dto.OrderRequest;
-import com.avbook.app.api.dto.PartDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +9,6 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class DeliveryService {
-    private final CompanyService companyService;
     private final PartService partService;
     private final TurbochargerService turbochargerService;
 

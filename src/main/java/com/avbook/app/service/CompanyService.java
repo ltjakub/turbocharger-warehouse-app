@@ -21,6 +21,7 @@ public class CompanyService {
                 .build();
         companyRepository.save(company);
     }
+
     public Company getCompanyById(UUID id) {
         return companyRepository.findById(id).orElseThrow(() -> new CompanyException(ErrorMessage.COMPANY_NOT_FOUND));
     }

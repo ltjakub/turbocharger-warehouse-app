@@ -18,6 +18,7 @@ public class AuthenticationController {
     ) {
         return ResponseEntity.ok(service.register(request));
     }
+
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
@@ -25,5 +26,9 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.authenticate(request));
     }
 
+    @GetMapping("/validate/{token}")
+    public ResponseEntity<ValidateAuthenticationDto> validate(@PathVariable String token) {
+        return ResponseEntity.ok(service.validate(token));
+    }
 
 }

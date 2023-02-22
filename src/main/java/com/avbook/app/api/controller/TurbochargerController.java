@@ -9,7 +9,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @CrossOrigin
@@ -22,8 +21,9 @@ public class TurbochargerController {
     public void addTurbocharger(@Valid @RequestBody TurbochargerDto request, @AuthenticationPrincipal User user) {
         turbochargerService.addTurbocharger(request, user);
     }
-    @GetMapping("/{companyId}")
-    public List<TurbochargerDto> getAllByCompanyId(@PathVariable UUID companyId, @AuthenticationPrincipal User user) {
-    return turbochargerService.getAllByCompanyId(companyId, user);
+
+    @GetMapping
+    public List<TurbochargerDto> getAllByUserCompanyId(@AuthenticationPrincipal User user) {
+        return turbochargerService.getAllByUserCompanyId(user);
     }
 }

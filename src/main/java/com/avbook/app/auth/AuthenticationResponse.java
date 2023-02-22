@@ -3,6 +3,7 @@ package com.avbook.app.auth;
 
 import com.avbook.app.user.Role;
 import com.avbook.app.user.User;
+import com.avbook.app.user.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,4 +23,5 @@ public class AuthenticationResponse {
     private String email;
     private Role role;
     private String accessToken;
+    private UserDto user;
 }

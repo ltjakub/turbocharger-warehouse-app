@@ -5,7 +5,7 @@ import com.avbook.app.entity.Address;
 import com.avbook.app.entity.Client;
 import com.avbook.app.entity.Company;
 import com.avbook.app.entity.Turbocharger;
-import com.avbook.app.exception.CompanyException;
+import com.avbook.app.exception.ClientException;
 import com.avbook.app.exception.ErrorMessage;
 import com.avbook.app.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +23,11 @@ public class ClientService {
     private final CompanyService companyService;
 
     public Client getClientById(UUID id) {
-        return clientRepository.findById(id).orElseThrow(() -> new CompanyException(ErrorMessage.ENTITY_NOT_FOUND));
+        return clientRepository.findById(id).orElseThrow(() -> new ClientException(ErrorMessage.ENTITY_NOT_FOUND));
     }
 
     public ClientDto getClientByEmail(String email) {
-        Client client = clientRepository.getClientByEmail(email).orElseThrow(() -> new CompanyException(ErrorMessage.ENTITY_NOT_FOUND));
+        Client client = clientRepository.getClientByEmail(email).orElseThrow(() -> new ClientException(ErrorMessage.ENTITY_NOT_FOUND));
         return ClientDtoMapper.map(client);
     }
 

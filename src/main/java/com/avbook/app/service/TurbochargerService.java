@@ -25,8 +25,8 @@ public class TurbochargerService {
         Client client = null;
         if (isValidUser(request.getCompanyId(), user)) {
             Company company = companyService.getCompanyById(request.getCompanyId());
-            if(request.getClientId() != null) {
-            client = clientService.getClientById(request.getClientId());
+            if (request.getClientId() != null) {
+                client = clientService.getClientById(request.getClientId());
             }
             Turbocharger turbocharger = Turbocharger.builder()
                     .company(company)
@@ -47,16 +47,14 @@ public class TurbochargerService {
 
     }
 
-
-
-    public List<TurbochargerDto> getAllByCompanyId(UUID companyID, User user) {
-        if (isValidUser(companyID, user)) {
-            return turbochargerRepository.findAllByCompanyId(companyID)
+    public List<TurbochargerDto> getAllByUserCompanyId(User user) {
+        if (user.getCompany().getId() != null) {
+            return turbochargerRepository.findAllByCompanyId(user.getCompany().getId())
                     .stream()
                     .map(TurbochargerDtoMapper::map)
                     .toList();
         }
-    return new ArrayList<>();
+        return new ArrayList<>();
     }
 
 
