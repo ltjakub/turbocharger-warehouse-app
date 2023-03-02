@@ -3,12 +3,12 @@ package com.avbook.app.api.controller;
 import com.avbook.app.api.dto.TurbochargerDto;
 import com.avbook.app.service.TurbochargerService;
 import com.avbook.app.user.User;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin
@@ -18,12 +18,20 @@ public class TurbochargerController {
     private final TurbochargerService turbochargerService;
 
     @PostMapping
-    public void addTurbocharger(@Valid @RequestBody TurbochargerDto request, @AuthenticationPrincipal User user) {
+    public void addTurbocharger(@RequestBody TurbochargerDto request, @AuthenticationPrincipal User user) {
         turbochargerService.addTurbocharger(request, user);
     }
 
     @GetMapping
     public List<TurbochargerDto> getAllByUserCompanyId(@AuthenticationPrincipal User user) {
         return turbochargerService.getAllByUserCompanyId(user);
+    }
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable UUID id) {
+        turbochargerService.deleteById(id);
+    }
+    @PatchMapping
+    public void patchTurbocharger(@RequestBody TurbochargerDto request) {
+        turbochargerService.patchTurbocharger(request);
     }
 }

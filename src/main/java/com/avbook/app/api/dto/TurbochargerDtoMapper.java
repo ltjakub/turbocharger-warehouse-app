@@ -9,15 +9,10 @@ public class TurbochargerDtoMapper {
         request.setCompanyId(turbocharger.getCompany().getId());
         request.setSerialNo(turbocharger.getSerialNo());
         request.setStatus(turbocharger.getStatus());
-        request.setBrand(turbocharger.getBrand());
-        request.setModel(turbocharger.getModel());
-        request.setEngineType(turbocharger.getEngineType());
-        request.setPower(turbocharger.getPower());
-        request.setVolume(turbocharger.getVolume());
-        request.setProducedFrom(turbocharger.getProducedFrom());
-        request.setProducedTo(turbocharger.getProducedTo());
         request.setPosition(turbocharger.getPosition());
-        request.setClientId(turbocharger.getClient().getId());
+        if(turbocharger.getClient() != null) {
+        request.setClientEmail(turbocharger.getClient().getEmail());
+        }
         return request;
     }
 }

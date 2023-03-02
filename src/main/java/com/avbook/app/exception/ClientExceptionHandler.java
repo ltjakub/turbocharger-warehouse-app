@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ClientExceptionHandler {
 
-    @ExceptionHandler(CompanyException.class)
+    @ExceptionHandler(ClientException.class)
     protected ResponseEntity<Object> handleCompanyException(ClientException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getErrorMessage());
     }
