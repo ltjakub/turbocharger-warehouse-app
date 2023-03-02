@@ -5,6 +5,10 @@ import com.avbook.app.api.dto.TurbochargerDto;
 import com.avbook.app.entity.Client;
 import com.avbook.app.entity.Company;
 import com.avbook.app.entity.Turbocharger;
+import com.avbook.app.exception.ClientException;
+import com.avbook.app.exception.CompanyException;
+import com.avbook.app.exception.ErrorMessage;
+import com.avbook.app.repository.ClientRepository;
 import com.avbook.app.repository.TurbochargerRepository;
 import com.avbook.app.user.User;
 import lombok.RequiredArgsConstructor;
@@ -19,32 +23,42 @@ import java.util.UUID;
 public class TurbochargerService {
     private final TurbochargerRepository turbochargerRepository;
     private final CompanyService companyService;
-    private final ClientService clientService;
+    private final ClientRepository clientRepository;
 
     public void addTurbocharger(TurbochargerDto request, User user) {
-        Client client = null;
-        if (isValidUser(request.getCompanyId(), user)) {
-            Company company = companyService.getCompanyById(request.getCompanyId());
-            if (request.getClientId() != null) {
-                client = clientService.getClientById(request.getClientId());
-            }
-            Turbocharger turbocharger = Turbocharger.builder()
-                    .company(company)
-                    .serialNo(request.getSerialNo())
-                    .status(request.getStatus())
-                    .brand(request.getBrand())
-                    .model(request.getModel())
-                    .engineType(request.getEngineType())
-                    .volume(request.getVolume())
-                    .power(request.getPower())
-                    .producedFrom(request.getProducedFrom())
-                    .producedTo(request.getProducedTo())
-                    .position(request.getPosition())
-                    .client(client)
-                    .build();
-            turbochargerRepository.save(turbocharger);
+        Turbocharger turbocharger;
+        Client client;
+
+        Company company = companyService.getCompanyById(user.getCompany().getId());
+        if (request.getClientEmail() != null) {
+            client = clientRepository.getClientByEmail(request.getClientEmail()).orElseThrow(() -> new ClientException(ErrorMessage.ENTITY_NOT_FOUND));
+            turbocharger = createTurbochargerWithClient(request, client, company);
+        } else {
+            turbocharger = createTurbochargerWithoutClient(request, company);
         }
 
+        turbochargerRepository.save(turbocharger);
+
+
+    }
+
+    private Turbocharger createTurbochargerWithClient(TurbochargerDto request, Client client, Company company) {
+        return Turbocharger.builder()
+                .company(company)
+                .serialNo(request.getSerialNo())
+                .status(request.getStatus())
+                .position(request.getPosition())
+                .client(client)
+                .build();
+    }
+
+    private Turbocharger createTurbochargerWithoutClient(TurbochargerDto request, Company company) {
+        return Turbocharger.builder()
+                .company(company)
+                .serialNo(request.getSerialNo())
+                .status(request.getStatus())
+                .position(request.getPosition())
+                .build();
     }
 
     public List<TurbochargerDto> getAllByUserCompanyId(User user) {
@@ -58,11 +72,20 @@ public class TurbochargerService {
     }
 
 
-    private boolean isValidUser(UUID companyID, User user) {
-        return companyID.equals(user.getCompany().getId());
-    }
-
     public void deleteById(UUID id) {
         turbochargerRepository.deleteById(id);
+    }
+
+    public void patchTurbocharger(TurbochargerDto turbochargerDto) {
+        Turbocharger turbocharger = turbochargerRepository.findById(turbochargerDto.getId()).orElseThrow(() -> new CompanyException(ErrorMessage.ENTITY_NOT_FOUND));
+        if (!turbochargerDto.getClientEmail().isEmpty()) {
+            Client client = clientRepository.getClientByEmail(turbochargerDto.getClientEmail()).orElseThrow(() -> new ClientException(ErrorMessage.ENTITY_NOT_FOUND));
+            turbocharger.setClient(client);
+        }
+        turbocharger.setPosition(turbochargerDto.getPosition());
+        turbocharger.setStatus(turbochargerDto.getStatus());
+        turbocharger.setSerialNo(turbochargerDto.getSerialNo());
+        turbochargerRepository.save(turbocharger);
+        //AP-849 BRANCH
     }
 }
