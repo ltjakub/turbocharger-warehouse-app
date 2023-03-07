@@ -1,6 +1,7 @@
 package com.avbook.app.api.controller;
 
 import com.avbook.app.api.dto.TurbochargerDto;
+import com.avbook.app.entity.TurbochargerStatus;
 import com.avbook.app.service.TurbochargerService;
 import com.avbook.app.user.User;
 import lombok.RequiredArgsConstructor;
@@ -23,13 +24,15 @@ public class TurbochargerController {
     }
 
     @GetMapping
-    public List<TurbochargerDto> getAllByUserCompanyId(@AuthenticationPrincipal User user) {
-        return turbochargerService.getAllByUserCompanyId(user);
+    public List<TurbochargerDto> getAllByUserCompanyIdAndStatus(@AuthenticationPrincipal User user, @RequestParam(required = false) TurbochargerStatus status) {
+        return turbochargerService.getAllByUserCompanyIdAndStatus(user, status);
     }
+
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable UUID id) {
         turbochargerService.deleteById(id);
     }
+
     @PatchMapping
     public void patchTurbocharger(@RequestBody TurbochargerDto request) {
         turbochargerService.patchTurbocharger(request);

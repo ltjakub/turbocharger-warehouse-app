@@ -5,6 +5,7 @@ import com.avbook.app.api.dto.TurbochargerDto;
 import com.avbook.app.entity.Client;
 import com.avbook.app.entity.Company;
 import com.avbook.app.entity.Turbocharger;
+import com.avbook.app.entity.TurbochargerStatus;
 import com.avbook.app.exception.ClientException;
 import com.avbook.app.exception.CompanyException;
 import com.avbook.app.exception.ErrorMessage;
@@ -39,7 +40,6 @@ public class TurbochargerService {
 
         turbochargerRepository.save(turbocharger);
 
-
     }
 
     private Turbocharger createTurbochargerWithClient(TurbochargerDto request, Client client, Company company) {
@@ -61,16 +61,22 @@ public class TurbochargerService {
                 .build();
     }
 
-    public List<TurbochargerDto> getAllByUserCompanyId(User user) {
+    public List<TurbochargerDto> getAllByUserCompanyIdAndStatus(User user, TurbochargerStatus status) {
+        List<Turbocharger> turbochargerList;
         if (user.getCompany().getId() != null) {
-            return turbochargerRepository.findAllByCompanyId(user.getCompany().getId())
+            UUID companyId = user.getCompany().getId();
+            if (status == null) {
+                turbochargerList = turbochargerRepository.findAllByCompanyId(companyId);
+            } else {
+                turbochargerList = turbochargerRepository.findAllByCompanyIdAndStatus(companyId, status);
+            }
+            return turbochargerList
                     .stream()
                     .map(TurbochargerDtoMapper::map)
                     .toList();
         }
         return new ArrayList<>();
     }
-
 
     public void deleteById(UUID id) {
         turbochargerRepository.deleteById(id);
@@ -86,6 +92,5 @@ public class TurbochargerService {
         turbocharger.setStatus(turbochargerDto.getStatus());
         turbocharger.setSerialNo(turbochargerDto.getSerialNo());
         turbochargerRepository.save(turbocharger);
-        //AP-849 BRANCH
     }
 }
