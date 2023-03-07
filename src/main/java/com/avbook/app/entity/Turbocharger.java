@@ -26,20 +26,6 @@ public class Turbocharger {
     private String serialNo;
     @Enumerated(EnumType.STRING)
     private TurbochargerStatus status;
-    @NotNull
-    private String brand;
-    @NotNull
-    private String model;
-    @NotNull
-    private String engineType;
-    @NotNull
-    private Integer volume;
-    @NotNull
-    private Integer power;
-    @NotNull
-    private LocalDate producedFrom;
-    @NotNull
-    private LocalDate producedTo;
     private String position;
     private String comment;
 }
